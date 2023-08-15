@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TourController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,15 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', fn () => Auth::check() ? redirect()->route('home') : redirect()->route('login'))->name('root');
+    Route::get('/register', fn () => abort(403, 'Registration is not allowed.'))->name('register');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('tours', TourController::class);
+    Route::post('/tours/multi-delete', [TourController::class, 'multiDelete'])->name('tours.multi-delete');
 });
 
 Auth::routes();
-
-// Prevent access to the registration route
-Route::get('/register', function () {
-    abort(403, 'Registration is not allowed.');
-});
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
