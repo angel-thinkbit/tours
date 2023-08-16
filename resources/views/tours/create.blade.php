@@ -26,7 +26,7 @@
         @csrf
         <div class="form-group mb-3">
             <label for="name">Name:</label>
-            <input type="text" name="name" class="form-control" required>
+            <input type="text" name="name" class="form-control" required value="{{ old('name') }}">
         </div>
         <div class="form-group mb-3">
             <label for="logo">Logo:</label>
@@ -34,11 +34,11 @@
         </div>
         <div class="form-group mb-3">
             <label for="start_date">Start Date:</label>
-            <input type="date" name="start_date" class="form-control" required>
+            <input type="date" name="start_date" class="form-control" required value="{{ old('start_date') }}">
         </div>
         <div class="form-group mb-3">
             <label for="end_date">End Date:</label>
-            <input type="date" name="end_date" class="form-control" required>
+            <input type="date" name="end_date" class="form-control" required value="{{ old('end_date') }}">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Create</button>
