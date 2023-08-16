@@ -54,6 +54,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {!! $bookings->links() !!}
+        </div>
         <button type="submit" id="delete-selected-btn" class="btn btn-danger" disabled>Delete Selected</button>
     </form>
     <script>
