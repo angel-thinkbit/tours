@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('bookings', BookingController::class);
+    Route::post('/bookings/multi-delete', [BookingController::class, 'multiDelete'])->name('bookings.multi-delete');
     Route::resource('tours', TourController::class);
     Route::post('/tours/multi-delete', [TourController::class, 'multiDelete'])->name('tours.multi-delete');
 });

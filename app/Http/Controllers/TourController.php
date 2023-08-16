@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tour;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreTourRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateTourRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class TourController extends Controller
@@ -114,28 +114,6 @@ class TourController extends Controller
             return redirect()->route('tours.edit', ['tour' => $tour->id])->withErrors($e->validator->errors());
         } catch (\Exception $e) {
             return redirect()->route('tours.edit', ['tour' => $tour->id])->with('error', 'An error occurred. Please try again.');
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tour  $tour
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tour $tour)
-    {
-        try {
-            // Delete the logo image from storage
-            if ($tour->logo) {
-                Storage::delete(str_replace('storage', 'public', $tour->logo));
-            }
-    
-            $tour->delete();
-    
-            return redirect()->route('tours.index')->with('success', 'Tour deleted successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('tours.index')->with('error', 'An error occurred while deleting the tour.');
         }
     }
 

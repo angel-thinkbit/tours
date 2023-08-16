@@ -31,7 +31,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tours.index') }}">Tours</a>
+                            <a class="nav-link {{ Str::contains(request()->route()->getName(), 'tours') ? 'active' : '' }}" href="{{ route('tours.index') }}">Tours</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Str::contains(request()->route()->getName(), 'bookings') ? 'active' : '' }}" href="{{ route('bookings.index') }}">Bookings</a>
                         </li>
                     </ul>
 
