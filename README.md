@@ -55,6 +55,8 @@ A small admin panel that can manage tours bookings
 11.  Execute php artisan key:generate
     
 12.  Execute php artisan migrate:fresh --seed --seeder=UserSeeder
+
+13.  Execute npm install && npm run dev
     
-13.  In your browser, navigate to your project’s URL to check if you’ve set up correctly.
+14.  In your browser, navigate to your project’s URL to check if you’ve set up correctly.
     
