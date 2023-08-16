@@ -124,16 +124,28 @@ class TourController extends Controller
         try {
             $toursToDelete = Tour::whereIn('id', $selectedTourIds)->get();
 
-            foreach ($toursToDelete as $tour) {
-                // Delete the logo image from storage
-                if ($tour->logo) {
-                    Storage::delete(str_replace('storage', 'public', $tour->logo));
-                }
+            $toursWithBookings = collect();
 
-                $tour->delete();
+            foreach ($toursToDelete as $tour) {
+                // Check if there are associated bookings
+                if ($tour->bookings()->exists()) {
+                    $toursWithBookings->push($tour);
+                } else {
+                    // Delete the logo image from storage
+                    if ($tour->logo) {
+                        Storage::delete(str_replace('storage', 'public', $tour->logo));
+                    }
+
+                    $tour->delete();
+                }
             }
 
-            return redirect()->route('tours.index')->with('success', 'Selected tours deleted successfully.');
+            if ($toursWithBookings->count() > 0) {
+                $tourNames = $toursWithBookings->pluck('name')->implode(', ');
+                return redirect()->route('tours.index')->with('error', 'Cannot delete tours (' . $tourNames . ') because they have associated bookings.');
+            } else {
+                return redirect()->route('tours.index')->with('success', 'Selected tours deleted successfully.');
+            }
         } catch (\Exception $e) {
             return redirect()->route('tours.index')->with('error', 'An error occurred while deleting the selected tours.');
         }
